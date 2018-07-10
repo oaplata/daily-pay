@@ -1,22 +1,47 @@
 <template>
-<div class="container">
-    <h1>Iniciar Sesión</h1>
-    <form v-on:submit.prevent="login">
-        <div class="form-group">
-            <input type="text" class="form-control" id="user" placeholder="Usuario" v-model="user">
-        </div>
-        <div class="form-group">
-            <input type="password" class="form-control" id="pass" placeholder="Contraseña" v-model="pass">
-        </div>
-        <button type="submit" class="btn btn-primary">Ingresar</button>
-    </form>
-</div>
+  <v-container grid-list-md text-xs-center>
+    <v-layout row align-center justify-center>
+      <v-flex xs12 sm7>
+        <v-card class="elevation-5">
+          <v-card-title class="header">
+            <h1>Iniciar Sesión</h1>
+          </v-card-title>
+          <v-card-text>
+            <v-form>
+              <v-container>
+                <v-text-field required label="Usuario" clearable v-model="user"></v-text-field>
+                <v-text-field 
+                required
+                :append-icon="show ? 'visibility_off' : 'visibility'"
+                @click:append="show = !show"
+                label="Contraseña"
+                v-model="pass" :type="show ? 'text' : 'password'"></v-text-field>
+                <v-btn color="info" block @click="login">Ingresar</v-btn>
+              </v-container>
+            </v-form>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
+
+<style>
+  .header {
+    background-color: #2196f3;
+  }
+  .header h1 {
+    margin: 0 !important;
+  }
+</style>
+
 <script>
+import swal from 'sweetalert2'
 export default {
   name: "login",
   data() {
     return {
+      show: false,
       user: "",
       pass: ""
     };
@@ -39,7 +64,7 @@ export default {
                     return this.$emit('sesion')
                 }
             }
-            alert('Datos de inicio de sesión errados')
+            swal("Ooops...", "Datos de inicio de sesión errados", "error");
             this.pass = ''
         }
     }

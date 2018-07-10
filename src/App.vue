@@ -1,8 +1,10 @@
 <template>
   <div id="app">
-    <login :sesion="sesion" v-if="!sesion" @sesion="checkSesion"></login>
-    <main-component @logout="logout" v-if="sesion && sesion.role === 'Admin'"></main-component>
-    <Prestamista @logout="logout" v-if="sesion && sesion.role === 'prestamista'" :sesion="sesion"></Prestamista>
+    <v-app>
+      <login :sesion="sesion" v-if="!sesion" @sesion="checkSesion"></login>
+      <main-component @logout="logout" v-if="sesion && sesion.role === 'Admin'"></main-component>
+      <Prestamista @logout="logout" v-if="sesion && sesion.role === 'prestamista'" :sesion="sesion"></Prestamista>
+    </v-app>
   </div>
 </template>
 

@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import swal from 'sweetalert2'
 export default {
   name: "main-component",
   data() {
@@ -69,17 +70,19 @@ export default {
     registrar() {
       console.log("prestamo");
       if (!this.passPrestamista || !this.nombrePrestamista) {
-        return alert("Completa por favor los campos requeridos");
+        return swal("Ooops...", "Completa por favor los campos requeridos", "error");
       }
       const prestamista = {
         name: this.nombrePrestamista,
         password: this.passPrestamista,
-        money: this.money,
+        money: this.money == null ? 0 : this.money,
         role: "prestamista"
       };
-
       this.prestamistas.push(prestamista);
       localStorage.setItem("pres", JSON.stringify(this.prestamistas));
+      this.nombrePrestamista = null
+      this.passPrestamista = null
+      this.money = 0
     },
     formatPrice(value) {
       let val = (value / 1).toFixed(0).replace(".", ",");
@@ -90,8 +93,11 @@ export default {
         localStorage.setItem('pres', JSON.stringify(this.prestamistas))
     },
     prestar(index) {
-        const money = window.prompt('Ingrese el valor que se le va a entregar al prestamista')
+        let money = window.prompt('Ingrese el valor que se le va a entregar al prestamista')
+        money = money === null ? 0 : money
+        console.log(money)
         const prestamista = this.prestamistas[index]
+        console.log(prestamista.money)
         prestamista.money = parseInt(money) + parseInt(prestamista.money)
         this.prestamistas[index] = prestamista
 

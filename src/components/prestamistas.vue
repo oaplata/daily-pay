@@ -41,7 +41,7 @@
                 <label for="time">Meses</label>
                 <input type="number" name="time" id="time" placeholder="Meses" class="form-control" v-model="time">
             </div>
-            <button type="submit" class="btn btn-warning">Crear Preestamo</button>
+            <button type="submit" class="btn btn-warning">Crear Prestamo</button>
         </form>
     </div>    
 </template>
