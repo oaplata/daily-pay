@@ -26,11 +26,26 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Prestamistas</h5>
+                <button class="btn btn-primary" @click="mostrar()">Mostrar prestamos</button>
                 <ul class="list-group">
                     <li class="list-group-item" v-for="(prestamista, index) in prestamistas" :key="prestamista.name">
                         <p>{{prestamista.name}} - ${{formatPrice(prestamista.money)}}</p>
                         <button type="button" class="btn btn-danger" @click="eliminar(index)">Eliminar</button>
                         <button class="btn btn-success" @click="prestar(index)">Prestar</button>
+
+                        <div v-if="show">
+                            <div class="card" v-for="(prestamo, index) in prestamista.prestamos" :key="index">
+                                <div class="card-body">
+                                    <h4>{{prestamo.from}}</h4>
+                                    <p><b>Direccion: </b> {{prestamo.dir}}</p>
+                                    <p><b>Telefono: </b> {{prestamo.tel}}</p>
+                                    <p><b>Meses: </b> {{prestamo.time}}</p>
+                                    <p><b> Cantidad prestada: </b>  ${{formatPrice(prestamo.money)}}</p>
+                                    <p><b>Cantidad pagada:</b> ${{formatPrice(prestamo.pagada)}} </p>
+                                    <p><b>Cantidad Faltante:</b> ${{formatPrice(prestamo.left)}} </p>
+                                </div>
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -46,7 +61,8 @@ export default {
       nombrePrestamista: null,
       passPrestamista: null,
       money: null,
-      prestamistas: []
+      prestamistas: [],
+      show: false
     };
   },
   methods: {
@@ -71,6 +87,7 @@ export default {
     },
     eliminar(prestamista) {
         this.prestamistas.splice(prestamista, 1)
+        localStorage.setItem('pres', JSON.stringify(this.prestamistas))
     },
     prestar(index) {
         const money = window.prompt('Ingrese el valor que se le va a entregar al prestamista')
@@ -83,7 +100,12 @@ export default {
     logout() {
         window.localStorage.removeItem('sesion')
         this.$emit('logout')
+    },
+    mostrar() {
+        this.show = !this.show
     }
+
+
   },
   beforeMount() {
     this.prestamistas = JSON.parse(localStorage.getItem("pres")) || [];
