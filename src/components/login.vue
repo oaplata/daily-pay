@@ -1,32 +1,40 @@
 <template>
-  <v-container grid-list-md text-xs-center>
-    <v-layout row align-center justify-center>
-      <v-flex xs12 sm7>
-        <v-card class="elevation-5">
-          <v-card-title class="header">
-            <h1>Iniciar Sesión</h1>
-          </v-card-title>
-          <v-card-text>
-            <v-form>
-              <v-container>
-                <v-text-field required label="Usuario" clearable v-model="user"></v-text-field>
-                <v-text-field 
-                required
-                :append-icon="show ? 'visibility_off' : 'visibility'"
-                @click:append="show = !show"
-                label="Contraseña"
-                v-model="pass" :type="show ? 'text' : 'password'"></v-text-field>
-                <v-btn color="info" block @click="login">Ingresar</v-btn>
-              </v-container>
-            </v-form>
-          </v-card-text>
-        </v-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
+  <v-layout row align-center justify-center>
+    <v-flex sm6>
+      <v-layout style="background-color: #2980b9; height: 100vh" wrap row align-center justify-center>
+          <v-flex xs12>
+            <h1>App Prestamos</h1>
+          </v-flex>
+          <img class="imagen" src="http://pngimg.com/uploads/coin/coin_PNG36871.png" width="200" />
+      </v-layout>
+    </v-flex>
+    <v-flex xs12 sm6>
+      <div class="login-cont">
+        <h1>Iniciar Sesión</h1>
+        <v-form>
+          <v-container>
+            <v-text-field required label="Usuario" clearable v-model="user"></v-text-field>
+            <v-text-field 
+            required
+            :append-icon="show ? 'visibility_off' : 'visibility'"
+            @click:append="show = !show"
+            label="Contraseña"
+            v-model="pass" :type="show ? 'text' : 'password'"></v-text-field>
+            <v-btn color="info" block @click="login">Ingresar</v-btn>
+          </v-container>
+        </v-form>
+      </div>
+    </v-flex>
+  </v-layout>
 </template>
 
 <style>
+  .login-cont {
+    padding: 0 30px;
+  }
+  .imagen {
+    padding: 40px 0;
+  }
   .header {
     background-color: #2196f3;
   }
