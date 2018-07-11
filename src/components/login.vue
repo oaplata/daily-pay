@@ -1,6 +1,6 @@
 <template>
   <v-layout row align-center justify-center>
-    <v-flex sm6>
+    <v-flex sm6 hidden-xs-only>
       <v-layout style="background-color: #2980b9; height: 100vh" wrap row align-center justify-center>
           <v-flex xs12>
             <h1>App Prestamos</h1>
