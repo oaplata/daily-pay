@@ -1,7 +1,7 @@
 <template>
   <div class="contenedor">
     <v-layout wrap>
-      <v-flex xs12 sm7 class="cont">
+      <v-flex xs12 md7 class="cont">
         <v-card>
           <v-card-title class="header">
             <h1 class="card-title">Registrar Prestamistas</h1>
@@ -24,7 +24,7 @@
           </v-card-text>
         </v-card>
       </v-flex>
-      <v-flex xs12 sm5 class="cont">
+      <v-flex xs12 md5 class="cont">
         <v-card>
           <v-card-title class="header">
             <h1 class="card-title">Prestamistas</h1>
@@ -41,12 +41,12 @@
                   <v-list-tile-sub-title v-html="`$ ${formatPrice(prestamista.money)}`"></v-list-tile-sub-title>
                 </v-list-tile-content>
                 <v-list-tile-action>
-                  <v-btn icon ripple @click="prestar(index)">
+                  <v-btn icon ripple @click.stop="prestar(index)">
                     <v-icon color="orange lighten-1">payment</v-icon>
                   </v-btn>
                 </v-list-tile-action>
                 <v-list-tile-action>
-                  <v-btn icon ripple @click="eliminar(index)">
+                  <v-btn icon ripple @click.stop="eliminar(index)">
                     <v-icon color="red lighten-1">delete</v-icon>
                   </v-btn>
                 </v-list-tile-action>
@@ -154,7 +154,11 @@
 </template>
 <style>
   .contenedor {
-    padding: 20px
+    padding: 20px;
+    padding-top: 0;
+  }
+  .cont {
+    margin-top: 20px;
   }
   .cont:first-child {
     padding-right: 10px;
@@ -173,6 +177,11 @@
   }
   .no-bg {
     background-color: rgba(0, 0, 0, .1)
+  }
+  @media (max-width: 960px) {
+    .cont {
+      padding: 0 !important;
+    }
   }
 </style>
 
@@ -201,12 +210,14 @@ export default {
   },
   methods: {
     openDialog (prestamista) {
-      prestamista.prestamos = prestamista.prestamos.map(e => {
-        e.active = false
-        return e
-      })
-      this.dialog = true
-      this.selectedPrestamista = prestamista
+      if(prestamista.prestamos) {
+        prestamista.prestamos = prestamista.prestamos.map(e => {
+          e.active = false
+          return e
+        })
+        this.dialog = true
+        this.selectedPrestamista = prestamista
+      } else swal('Ooops...', 'El prestamista selecionado no ha realizado ningún préstamo', 'error')
       console.log(this.selectedPrestamista)
     },
     registrar() {
@@ -234,9 +245,17 @@ export default {
         this.prestamistas.splice(prestamista, 1)
         localStorage.setItem('pres', JSON.stringify(this.prestamistas))
     },
-    prestar(index) {
-        let money = window.prompt('Ingrese el valor que se le va a entregar al prestamista')
-        money = money === null ? 0 : money
+    async prestar(index) {
+        let {value: money} = await swal({
+          title: 'Ingrese el valor que se le va a entregar al prestamista',
+          input: 'number',
+          inputPlaceholder: 'Dinero',
+          showCancelButton: true,
+          inputValidator: (value) => {
+            return !value && 'Debes ingresar un valor'
+          }
+        })
+        money = money || 0
         console.log(money)
         const prestamista = this.prestamistas[index]
         console.log(prestamista.money)
@@ -256,11 +275,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.card {
-  width: 98%;
-  margin-left: 1%;
-  margin-top: 10px;
-}
-</style>
