@@ -6,7 +6,7 @@
           <v-card-title class="header">
             <h1 class="card-title">Registrar Prestamistas</h1>
           </v-card-title>
-          <v-card-text>
+          <v-card-text class="card-content">
             <v-form @submit.prevent="registrar">
               <v-text-field required label="Nombre" clearable v-model="nombrePrestamista"></v-text-field>
               <v-text-field 
@@ -29,7 +29,7 @@
           <v-card-title class="header">
             <h1 class="card-title">Prestamistas</h1>
           </v-card-title>
-          <v-card-text>
+          <v-card-text class="card-content scroll-overflow">
             <v-list>
               <v-list-tile
                 v-for="(prestamista, index) in prestamistas"
@@ -41,14 +41,20 @@
                   <v-list-tile-sub-title v-html="`$ ${formatPrice(prestamista.money)}`"></v-list-tile-sub-title>
                 </v-list-tile-content>
                 <v-list-tile-action>
-                  <v-btn icon ripple @click.stop="prestar(index)">
-                    <v-icon color="orange lighten-1">payment</v-icon>
-                  </v-btn>
+                  <v-tooltip top>
+                    <v-btn slot="activator" icon ripple @click.stop="prestar(index)">
+                      <v-icon color="orange lighten-1">payment</v-icon>
+                    </v-btn>
+                    <span>Prestar</span>
+                  </v-tooltip>
                 </v-list-tile-action>
                 <v-list-tile-action>
-                  <v-btn icon ripple @click.stop="eliminar(index)">
-                    <v-icon color="red lighten-1">delete</v-icon>
-                  </v-btn>
+                  <v-tooltip top>
+                    <v-btn slot="activator" icon ripple @click.stop="eliminar(index)">
+                      <v-icon color="red lighten-1">delete</v-icon>
+                    </v-btn>
+                    <span>Eliminar</span>
+                  </v-tooltip>
                 </v-list-tile-action>
               </v-list-tile>
             </v-list>
@@ -67,14 +73,14 @@
         </v-card-title>
 
         <v-card-text>
-          <v-list subheader>
+          <v-subheader slot="activator">Prestamos</v-subheader>
+          <v-list>
             <v-list-group
             v-for="cliente in selectedPrestamista.prestamos"
             v-model="cliente.active"
             :key="cliente.tel"
             no-action
           >
-            <v-subheader inset>Prestamos</v-subheader>
             <v-list-tile slot="activator">
               <v-list-tile-content>
                 <v-list-tile-title>{{ cliente.from }}</v-list-tile-title>
@@ -152,38 +158,6 @@
     </v-dialog>
   </div>
 </template>
-<style>
-  .contenedor {
-    padding: 20px;
-    padding-top: 0;
-  }
-  .cont {
-    margin-top: 20px;
-  }
-  .cont:first-child {
-    padding-right: 10px;
-  }
-  .cont:last-child {
-    padding-left: 10px;
-  }
-  .header {
-    display: flex;
-    justify-content: space-between;
-    background-color: #2196f3;
-  }
-  .header h1 {
-    color: rgba(0, 0, 0, .5);
-    margin: 0 !important;
-  }
-  .no-bg {
-    background-color: rgba(0, 0, 0, .1)
-  }
-  @media (max-width: 960px) {
-    .cont {
-      padding: 0 !important;
-    }
-  }
-</style>
 
 <script>
 import swal from 'sweetalert2'
@@ -218,7 +192,6 @@ export default {
         this.dialog = true
         this.selectedPrestamista = prestamista
       } else swal('Ooops...', 'El prestamista selecionado no ha realizado ningún préstamo', 'error')
-      console.log(this.selectedPrestamista)
     },
     registrar() {
       console.log("prestamo");
@@ -256,9 +229,7 @@ export default {
           }
         })
         money = money || 0
-        console.log(money)
         const prestamista = this.prestamistas[index]
-        console.log(prestamista.money)
         prestamista.money = parseInt(money) + parseInt(prestamista.money)
         this.prestamistas[index] = prestamista
 

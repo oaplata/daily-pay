@@ -15,7 +15,7 @@
       </v-toolbar>
       <login :sesion="sesion" v-if="!sesion" @sesion="checkSesion"></login>
       <main-component @logout="logout" v-if="sesion && sesion.role === 'Admin'"></main-component>
-      <Prestamista @logout="logout" v-if="sesion && sesion.role === 'prestamista'" :sesion="sesion"></Prestamista>
+      <Prestamista @setSesion="checkSesion" @logout="logout" v-if="sesion && sesion.role === 'prestamista'" :sesion="sesion"></Prestamista>
     </v-app>
   </div>
 </template>
@@ -48,6 +48,7 @@ export default {
     }
   },
   methods: {
+
     checkSesion: function () {
       const storage = window.localStorage.getItem('sesion')
       if ( storage ) {

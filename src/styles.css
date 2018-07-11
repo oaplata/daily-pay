@@ -1,0 +1,36 @@
+.contenedor {
+  padding: 20px;
+  padding-top: 0;
+}
+.cont {
+  margin-top: 20px;
+}
+.cont:first-child {
+  padding-right: 10px;
+}
+.cont:last-child {
+  padding-left: 10px;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #2196f3;
+}
+.scroll-overflow {
+  overflow-y: scroll;
+}
+.card-content {
+  height: 65vh;
+}
+.header h1 {
+  color: rgba(0, 0, 0, .5);
+  margin: 0 !important;
+}
+.no-bg {
+  background-color: rgba(0, 0, 0, .1)
+}
+@media (max-width: 960px) {
+  .cont {
+    padding: 0 !important;
+  }
+}
