@@ -1,7 +1,5 @@
 <template>
     <div class="container">
-        <button class="btn btn-link" @click="logout()">Cerrar Sesion</button>
-        <h4>Saldo del prestamista: ${{formatPrice(user.money)}}</h4>
         <h1>Prestamos</h1>
         <ul class="list-group">
             <li class="list-group-item" v-for="(prestamo, index) in user.prestamos" :key="prestamo.from">
@@ -66,10 +64,6 @@ export default {
     console.log(this.user)
   },
   methods: {
-    logout() {
-      window.localStorage.removeItem('sesion')
-      this.$emit('logout')
-    },
     add(index) {
       const cuota = prompt("Ingrese el valor de la cuota")
       this.user.prestamos[index].pagada += parseInt(cuota)

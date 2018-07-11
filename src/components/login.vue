@@ -19,6 +19,7 @@
             :append-icon="show ? 'visibility_off' : 'visibility'"
             @click:append="show = !show"
             label="Contraseña"
+            @keyup.enter="login"
             v-model="pass" :type="show ? 'text' : 'password'"></v-text-field>
             <v-btn color="info" block @click="login">Ingresar</v-btn>
           </v-container>
@@ -34,12 +35,6 @@
   }
   .imagen {
     padding: 40px 0;
-  }
-  .header {
-    background-color: #2196f3;
-  }
-  .header h1 {
-    margin: 0 !important;
   }
 </style>
 
